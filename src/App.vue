@@ -27,7 +27,9 @@
         @click="drawerIsOpen = !drawerIsOpen"
         class="hidden-md-and-up"
       ></v-toolbar-side-icon>
-      <v-toolbar-title>Billboard</v-toolbar-title>
+      <v-toolbar-title>
+        <router-link to="/" class="logo-link">Billboard</router-link>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-toolbar-items class="hidden-sm-and-down">
@@ -69,3 +71,11 @@ export default {
   }
 }
 </script>
+
+
+<style scoped>
+  .logo-link {
+    text-decoration: none;
+    color: #fff;
+  }
+</style>
