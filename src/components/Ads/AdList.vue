@@ -8,14 +8,14 @@
           :key="ad.id"
           class="evelation-10 mb-3"
         >
-          <v-layout row>
-            <v-flex xs4>
-              <v-card-media
+          <v-layout row wrap>
+            <v-flex xs12 sm4>
+              <v-img
                 :src="ad.imgSrc"
                 height="175"
-              ></v-card-media>
+              ></v-img>
             </v-flex>
-            <v-flex xs8>
+            <v-flex xs12 sm8>
               <v-card-text>
                 <h2 class="text--primary">{{ ad.title }}</h2>
                 <p>{{ ad.description }}</p>
