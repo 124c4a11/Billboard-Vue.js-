@@ -4,7 +4,7 @@
       <v-flex xs12 md8 lg6>
         <h1 class="text--secondary mb-3">My ads</h1>
         <v-card
-          v-for="ad in ads"
+          v-for="ad in myAds"
           :key="ad.id"
           class="evelation-10 mb-3"
         >
@@ -38,35 +38,15 @@
 
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'AdList',
 
-  data () {
-    return {
-      ads: [
-        {
-          id: '1',
-          title: 'Ad title',
-          description: 'Ad description',
-          imgSrc: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-          promo: true
-        },
-        {
-          id: '2',
-          title: 'Ad title',
-          description: 'Ad description',
-          imgSrc: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-          promo: true
-        },
-        {
-          id: '3',
-          title: 'Ad title',
-          description: 'Ad description',
-          imgSrc: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
-          promo: false
-        },
-      ]
-    }
+  computed: {
+    ...mapGetters('ads', {
+      myAds: 'myAds'
+    }),
   }
 }
 </script>
