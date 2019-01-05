@@ -4,14 +4,14 @@
       <v-flex xs12>
         <v-card>
           <v-img
-            src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
+            :src="ad.imgSrc"
             aspect-ratio="2.75"
           ></v-img>
 
           <v-card-title primary-title>
             <div>
-              <h1 class="headline mb-3">Kangaroo Valley Safari</h1>
-              <div>Located two hours south of Sydney in the <br>Southern Highlands of New South Wales, ...</div>
+              <h1 class="headline mb-3">{{ ad.title }}</h1>
+              <div>{{ ad.description }}</div>
             </div>
           </v-card-title>
 
@@ -28,13 +28,23 @@
 
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Ad',
 
-  data () {
-    return {
+  computed: {
+    ...mapGetters('ads', {
+      adById: 'adById'
+    }),
 
-    }
+    id () {
+      return this.$route.params.id;
+    },
+
+    ad () {
+      return this.adById(this.id);
+    },
   }
 }
 </script>

@@ -30,9 +30,11 @@ export default {
   getters: {
     ads: (state) => state.ads,
 
-    promoAds: (state) => state.ads.filter((ad) => ad.promo),
+    promoAds: (state) => state.ads.filter( (ad) => ad.promo ),
 
     myAds: (state) => state.ads,
+
+    adById: (state) => (adId) => state.ads.find( (ad) => ad.id === adId ),
   },
 
   mutations: {
