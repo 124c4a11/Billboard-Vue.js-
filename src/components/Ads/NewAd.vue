@@ -14,7 +14,7 @@
             color="light-blue"
           ></v-text-field>
           <v-textarea
-            v-model="password"
+            v-model="description"
             :rules="descriptionRules"
             name="descriptin"
             label="Ad description"
@@ -25,7 +25,7 @@
     </v-layout>
     <v-layout row justify-center>
       <v-flex xs12 sm6>
-        <v-btn
+        <!-- <v-btn
           :loading="loading3"
           :disabled="loading3"
           @click="loader = 'loading3'"
@@ -34,7 +34,7 @@
         >
           Upload
           <v-icon right dark>cloud_upload</v-icon>
-        </v-btn>
+        </v-btn> -->
       </v-flex>
     </v-layout>
     <v-layout row justify-center>
@@ -66,6 +66,8 @@
 
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'NewAd',
 
@@ -87,13 +89,20 @@ export default {
   },
 
   methods: {
+    ...mapActions('ads', [
+      'createNewAd'
+    ]),
+
     createAd () {
       if (this.$refs.form.validate()) {
         const ad = {
           title: this.title,
           description: this.description,
+          imgSrc: 'https://skladchik.com/proxy.php?image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FDsuTwV0jwaY%2Fmaxresdefault.jpg&hash=ddef9dd1ddb1a8e1ceb184f53f666e0a',
           promo: this.promo
         };
+
+        this.createNewAd(ad);
       }
     }
   }

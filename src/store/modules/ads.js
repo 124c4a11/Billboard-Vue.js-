@@ -23,7 +23,7 @@ export default {
         description: 'Ad description',
         imgSrc: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
         promo: false
-      },
+      }
     ]
   },
 
@@ -38,10 +38,16 @@ export default {
   },
 
   mutations: {
-
+    createAd (state, ad) {
+      state.ads.push(ad);
+    }
   },
 
   actions: {
+    createNewAd ({ commit }, ad) {
+      ad.id = `${ Math.random() }`;
 
+      commit('createAd', ad);
+    }
   }
 }
