@@ -41,7 +41,8 @@
             <v-spacer></v-spacer>
             <v-btn
               @click="onSubmit"
-              :disabled="!valid"
+              :loading="loading"
+              :disabled="!valid || loading"
               color="light-blue"
               class="white--text"
             >Create account</v-btn>
@@ -54,6 +55,9 @@
 
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
+
 export default {
   name: 'Registration',
 
@@ -81,15 +85,29 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters('shared', [
+      'loading'
+    ]),
+  },
+
   methods: {
+    ...mapActions('user', [
+      'registerUser'
+    ]),
+
     onSubmit () {
       if (this.$refs.form.validate()) {
         const user = {
-          emali: this.email,
+          email: this.email,
           password: this.password
         };
 
-        console.log(user);
+        this.registerUser(user)
+          .then(() => {
+            this.$router.push('/');
+          })
+          .catch((error) => console.log(error));
       }
     }
   }
