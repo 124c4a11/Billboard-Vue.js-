@@ -32,7 +32,8 @@
             <v-spacer></v-spacer>
             <v-btn
               @click="onSubmit"
-              :disabled="!valid"
+              :loading="loading"
+              :disabled="!valid || loading"
               color="light-blue"
               class="white--text"
             >Login</v-btn>
@@ -45,6 +46,9 @@
 
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
+
 export default {
   name: 'Login',
 
@@ -66,15 +70,29 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters('shared', [
+      'loading'
+    ]),
+  },
+
   methods: {
+    ...mapActions('user', [
+      'loginUser'
+    ]),
+
     onSubmit () {
       if (this.$refs.form.validate()) {
         const user = {
-          emali: this.email,
+          email: this.email,
           password: this.password
         };
 
-        console.log(user);
+        this.loginUser(user)
+          .then(() => {
+            this.$router.push('/');
+          })
+          .catch((error) => console.log(error));
       }
     }
   }

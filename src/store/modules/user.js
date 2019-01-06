@@ -38,6 +38,25 @@ export default {
       } catch (error) {
         commit('shared/setLoading', false, { root: true });
         commit('shared/setError', error.message, { root: true });
+
+        throw error;
+      }
+    },
+
+    async loginUser ({ commit }, { email, password }) {
+      commit('shared/clearError', null, { root: true });
+      commit('shared/setLoading', true, { root: true });
+
+      try {
+        const user = await fb.auth().signInWithEmailAndPassword(email, password);
+
+        commit('setUser', new User(user.uid));
+        commit('shared/setLoading', false, { root: true });
+      } catch (error) {
+        commit('shared/setLoading', false, { root: true });
+        commit('shared/setError', error.message, { root: true });
+
+        throw error;
       }
     }
   }
