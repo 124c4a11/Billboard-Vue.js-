@@ -48,10 +48,31 @@
     <v-content>
       <router-view></router-view>
     </v-content>
+
+    <template v-if="error">
+      <v-snackbar
+        :multi-line="true"
+        :value="true"
+        @input="closeError"
+        color="error"
+      >
+        {{ error }}
+
+        <v-btn
+          dark
+          flat
+          @click="closeError"
+        >
+          Close
+        </v-btn>
+      </v-snackbar>
+    </template>
   </v-app>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 
 export default {
   name: 'App',
@@ -67,6 +88,22 @@ export default {
         { title: 'New ad', icon: 'note_add', url: '/new' },
         { title: 'My ads', icon: 'list', url: '/list' },
       ]
+    }
+  },
+
+  computed: {
+    ...mapGetters('shared', [
+      'error'
+    ]),
+  },
+
+  methods: {
+    ...mapActions('shared', [
+      'clearError'
+    ]),
+
+    closeError () {
+      this.clearError();
     }
   }
 }
