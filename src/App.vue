@@ -80,14 +80,6 @@ export default {
   data () {
     return {
       drawerIsOpen: false,
-
-      links: [
-        { title: 'Login', icon: 'lock', url: '/login' },
-        { title: 'Registration', icon: 'face', url: '/registration' },
-        { title: 'Orders', icon: 'bookmark_border', url: '/orders' },
-        { title: 'New ad', icon: 'note_add', url: '/new' },
-        { title: 'My ads', icon: 'list', url: '/list' },
-      ]
     }
   },
 
@@ -95,6 +87,25 @@ export default {
     ...mapGetters('shared', [
       'error'
     ]),
+
+    ...mapGetters('user', [
+      'isUserLogedIn'
+    ]),
+
+    links () {
+      if (this.isUserLogedIn) {
+        return [
+          { title: 'Orders', icon: 'bookmark_border', url: '/orders' },
+          { title: 'New ad', icon: 'note_add', url: '/new' },
+          { title: 'My ads', icon: 'list', url: '/list' },
+        ];
+      }
+
+      return [
+        { title: 'Login', icon: 'lock', url: '/login' },
+        { title: 'Registration', icon: 'face', url: '/registration' },
+      ];
+    }
   },
 
   methods: {

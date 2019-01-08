@@ -17,6 +17,8 @@ export default {
 
   getters: {
     user: (state) => state.user,
+
+    isUserLogedIn: (state) => state.user !== null,
   },
 
   mutations: {
@@ -58,6 +60,10 @@ export default {
 
         throw error;
       }
+    },
+
+    autoLoginUser ({ commit }, payload) {
+      commit('setUser', payload.uid);
     }
   }
 }
