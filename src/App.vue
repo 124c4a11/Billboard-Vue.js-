@@ -19,6 +19,19 @@
             <v-list-tile-title v-text="link.title"></v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+
+        <v-list-tile
+          v-if="isUserLogedIn"
+          @click="onLogoutUser"
+        >
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+
+          <v-list-tile-content>
+            <v-list-tile-title v-text="'Logout'"></v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
 
@@ -41,6 +54,15 @@
         >
           <v-icon left>{{ link.icon }}</v-icon>
           {{ link.title }}
+        </v-btn>
+
+        <v-btn
+          v-if="isUserLogedIn"
+          @click="onLogoutUser"
+          flat
+        >
+          <v-icon left>exit_to_app</v-icon>
+          Logout
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -70,9 +92,9 @@
   </v-app>
 </template>
 
+
 <script>
 import { mapGetters, mapActions } from 'vuex';
-
 
 export default {
   name: 'App',
@@ -113,8 +135,17 @@ export default {
       'clearError'
     ]),
 
+    ...mapActions('user', [
+      'logoutUser'
+    ]),
+
     closeError () {
       this.clearError();
+    },
+
+    onLogoutUser () {
+      this.logoutUser();
+      this.$router.push('/');
     }
   }
 }

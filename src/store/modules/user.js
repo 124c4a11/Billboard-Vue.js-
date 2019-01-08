@@ -64,6 +64,11 @@ export default {
 
     autoLoginUser ({ commit }, payload) {
       commit('setUser', payload.uid);
+    },
+
+    logoutUser ({ commit }) {
+      fb.auth().signOut();
+      commit('setUser', null);
     }
   }
 }
