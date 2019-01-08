@@ -77,6 +77,10 @@ export default {
   },
 
   methods: {
+    ...mapActions('shared', [
+      'setError'
+    ]),
+
     ...mapActions('user', [
       'loginUser'
     ]),
@@ -94,6 +98,12 @@ export default {
           })
           .catch(() => {});
       }
+    }
+  },
+
+  created () {
+    if (this.$route.query['loginError']) {
+      this.setError('Please log in to access this page.');
     }
   }
 }
