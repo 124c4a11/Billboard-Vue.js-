@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!loading">
     <v-container fluid>
       <v-carousel>
         <v-carousel-item
@@ -49,6 +49,19 @@
       </v-layout>
     </v-container>
   </div>
+
+  <div v-else>
+    <v-container>
+      <v-layout row justify-center align-center>
+        <v-progress-circular
+          :size="50"
+          :width="5"
+          color="light-blue"
+          indeterminate
+        ></v-progress-circular>
+      </v-layout>
+    </v-container>
+  </div>
 </template>
 
 
@@ -59,10 +72,14 @@ export default {
   name: 'Home',
 
   computed: {
-    ...mapGetters('ads', {
-      ads: 'ads',
-      promoAds: 'promoAds',
-    }),
+    ...mapGetters('ads', [
+      'ads',
+      'promoAds',
+    ]),
+
+    ...mapGetters('shared', [
+      'loading'
+    ])
   }
 }
 </script>

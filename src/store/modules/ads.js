@@ -24,29 +24,7 @@ export default {
   namespaced: true,
 
   state: {
-    ads: [
-      {
-        id: '1',
-        title: 'Ad title',
-        description: 'Ad description',
-        imgSrc: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-        promo: true
-      },
-      {
-        id: '2',
-        title: 'Ad title',
-        description: 'Ad description',
-        imgSrc: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-        promo: true
-      },
-      {
-        id: '3',
-        title: 'Ad title',
-        description: 'Ad description',
-        imgSrc: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
-        promo: false
-      }
-    ]
+    ads: []
   },
 
   getters: {
@@ -62,6 +40,10 @@ export default {
   mutations: {
     createAd (state, ad) {
       state.ads.push(ad);
+    },
+
+    loadAds (state, ads) {
+      state.ads = ads;
     }
   },
 
@@ -87,6 +69,40 @@ export default {
           ...newAd,
           id: fbAd.key
         });
+      } catch (error) {
+        commit('shared/setError', error.message, { root: true });
+        commit('shared/setLoading', false, { root: true });
+
+        throw error;
+      }
+    },
+
+    async fetchAds ({ commit }) {
+      const resultAds = [];
+
+      commit('shared/clearError', null, { root: true });
+      commit('shared/setLoading', true, { root: true });
+
+      try {
+        const
+          response = await fb.database().ref('ads').once('value'),
+          ads = response.val();
+
+        Object.keys(ads).forEach((key) => {
+          const ad = ads[key];
+
+          resultAds.push(new Ad(
+            ad.title,
+            ad.description,
+            ad.imgSrc,
+            ad.ownerId,
+            ad.promo,
+            key
+          ));
+        });
+
+        commit('loadAds', resultAds);
+        commit('shared/setLoading', false, { root: true });
       } catch (error) {
         commit('shared/setError', error.message, { root: true });
         commit('shared/setLoading', false, { root: true });
