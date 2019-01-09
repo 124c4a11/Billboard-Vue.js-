@@ -50,9 +50,9 @@ export default {
       commit('shared/setLoading', true, { root: true });
 
       try {
-        const user = await fb.auth().signInWithEmailAndPassword(email, password);
+        const response = await fb.auth().signInWithEmailAndPassword(email, password);
 
-        commit('setUser', new User(user.uid));
+        commit('setUser', new User(response.user.uid));
         commit('shared/setLoading', false, { root: true });
       } catch (error) {
         commit('shared/setLoading', false, { root: true });
@@ -63,7 +63,7 @@ export default {
     },
 
     autoLoginUser ({ commit }, payload) {
-      commit('setUser', payload.uid);
+      commit('setUser', new User(payload.uid));
     },
 
     logoutUser ({ commit }) {

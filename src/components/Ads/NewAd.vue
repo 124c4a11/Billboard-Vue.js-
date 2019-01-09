@@ -54,7 +54,8 @@
     <v-layout row justify-center>
       <v-flex xs12 sm6>
         <v-btn
-          :disabled="!valid"
+          :loading="loading"
+          :disabled="!valid || loading"
           @click="createAd"
           color="success"
           class="ml-0"
@@ -66,7 +67,7 @@
 
 
 <script>
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'NewAd',
@@ -88,6 +89,12 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters('shared', [
+      'loading'
+    ]),
+  },
+
   methods: {
     ...mapActions('ads', [
       'createNewAd'
@@ -102,7 +109,9 @@ export default {
           promo: this.promo
         };
 
-        this.createNewAd(ad);
+        this.createNewAd(ad)
+          .then( () => this.$router.push('/list') )
+          .catch( () => {} );
       }
     }
   }
