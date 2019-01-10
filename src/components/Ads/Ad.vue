@@ -17,7 +17,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <app-edit-ad-modal :ad="ad"></app-edit-ad-modal>
+            <app-edit-ad-modal v-if="isOwner" :ad="ad"></app-edit-ad-modal>
             <v-btn class="success ml-2">Buy</v-btn>
           </v-card-actions>
         </v-card>
@@ -56,6 +56,10 @@ export default {
       'loading'
     ]),
 
+    ...mapGetters('user', [
+      'user'
+    ]),
+
     id () {
       return this.$route.params.id;
     },
@@ -63,6 +67,10 @@ export default {
     ad () {
       return this.adById(this.id);
     },
+
+    isOwner () {
+      return this.ad.ownerId === this.user.id;
+    }
   }
 }
 </script>
