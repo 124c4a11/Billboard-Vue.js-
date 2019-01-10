@@ -17,8 +17,8 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn flat color="orange">Edit</v-btn>
-            <v-btn class="success">Buy</v-btn>
+            <app-edit-ad-modal :ad="ad"></app-edit-ad-modal>
+            <v-btn class="success ml-2">Buy</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -29,9 +29,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import AppEditAdModal from './EditAdModal';
 
 export default {
   name: 'Ad',
+
+  components: {
+    AppEditAdModal
+  },
 
   computed: {
     ...mapGetters('ads', {
