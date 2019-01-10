@@ -32,7 +32,9 @@ export default {
 
     promoAds: (state) => state.ads.filter( (ad) => ad.promo ),
 
-    myAds: (state) => state.ads,
+    myAds: (state, getters, rootGetters) => {
+      return state.ads.filter( (ad) => ad.ownerId === rootGetters.user.user.id );
+    },
 
     adById: (state) => (adId) => state.ads.find( (ad) => ad.id === adId ),
   },
