@@ -44,6 +44,13 @@ export default {
 
     loadAds (state, ads) {
       state.ads = ads;
+    },
+
+    updateAd (state, { id, title, description }) {
+      const ad = state.ads.find( (item) => item.id === id );
+
+      ad.title = title;
+      ad.description = description;
     }
   },
 
@@ -115,6 +122,25 @@ export default {
         });
 
         commit('loadAds', resultAds);
+        commit('shared/setLoading', false, { root: true });
+      } catch (error) {
+        commit('shared/setError', error.message, { root: true });
+        commit('shared/setLoading', false, { root: true });
+
+        throw error;
+      }
+    },
+
+    async updateAd ({ commit }, { id, title, description }) {
+      commit('shared/clearError', null, { root: true });
+      commit('shared/setLoading', true, { root: true });
+
+      console.log(id, title, description);
+
+      try {
+        await fb.database().ref('ads').child(id).update({ title, description });
+
+        commit('updateAd', { id, title, description });
         commit('shared/setLoading', false, { root: true });
       } catch (error) {
         commit('shared/setError', error.message, { root: true });

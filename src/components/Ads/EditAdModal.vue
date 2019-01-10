@@ -14,7 +14,7 @@
           ></v-text-field>
           <v-textarea
             v-model="editedDescription"
-            name="descriptin"
+            name="description"
             label="Ad description"
             color="light-blue"
           ></v-textarea>
@@ -31,6 +31,8 @@
 
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'EditAdModal',
 
@@ -45,6 +47,10 @@ export default {
   },
 
   methods: {
+    ...mapActions('ads', [
+      'updateAd'
+    ]),
+
     onCancel () {
       this.modal = false;
 
@@ -53,6 +59,15 @@ export default {
     },
 
     onSave () {
+      if (this.editedTitle !== '' && this.editedDescription !== '') {
+        this.updateAd({
+          id: this.ad.id,
+          title: this.editedTitle,
+          description: this.editedDescription
+        });
+
+        this.modal = false;
+      }
     }
   }
 }
