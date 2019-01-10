@@ -52,22 +52,35 @@ export default {
       commit('shared/clearError', null, { root: true });
       commit('shared/setLoading', true, { root: true });
 
+      const img = ad.img;
+
       try {
         const newAd = new Ad(
           ad.title,
           ad.description,
-          ad.imgSrc,
+          '',
           rootGetters['user/user'].id,
           ad.promo
         );
 
-        const fbAd = await fb.database().ref('ads').push(newAd);
+        const
+          fbAd = await fb.database().ref('ads').push(newAd),
+          imgExt = img.name.slice( img.name.lastIndexOf('.') );
+
+        // upload file in storage
+        await fb.storage().ref(`ads/${fbAd.key}${imgExt}`).put(img);
+
+        const imgSrc = await fb.storage().ref(`ads/${fbAd.key}${imgExt}`).getDownloadURL();
+
+        // set imgSrc for ad in database
+        await fb.database().ref('ads').child(fbAd.key).update({ imgSrc });
 
         commit('shared/setLoading', false, { root: true });
 
         commit('createAd', {
           ...newAd,
-          id: fbAd.key
+          id: fbAd.key,
+          imgSrc
         });
       } catch (error) {
         commit('shared/setError', error.message, { root: true });

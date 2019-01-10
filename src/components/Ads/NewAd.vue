@@ -25,21 +25,28 @@
     </v-layout>
     <v-layout row justify-center>
       <v-flex xs12 sm6>
-        <!-- <v-btn
-          :loading="loading3"
-          :disabled="loading3"
-          @click="loader = 'loading3'"
+        <v-btn
+          :disabled="loading"
+          @click="triggerUpload"
           color="blue-grey"
           class="white--text ml-0 mb-4"
         >
           Upload
           <v-icon right dark>cloud_upload</v-icon>
-        </v-btn> -->
+        </v-btn>
+        {{ imgSrc }}
+        <input
+          ref="fileInput"
+          @change="onFileChange"
+          type="file"
+          style="display: none"
+          accept="image/*"
+        >
       </v-flex>
     </v-layout>
     <v-layout row justify-center>
       <v-flex xs12 sm6>
-        <img height="100" src="" alt="">
+        <img v-if="imgSrc" height="100" :src="imgSrc" alt="">
       </v-flex>
     </v-layout>
     <v-layout row justify-center>
@@ -55,7 +62,7 @@
       <v-flex xs12 sm6>
         <v-btn
           :loading="loading"
-          :disabled="!valid || loading"
+          :disabled="!valid || !img || loading"
           @click="createAd"
           color="success"
           class="ml-0"
@@ -76,6 +83,8 @@ export default {
     return {
       promo: false,
       valid: false,
+      img: null,
+      imgSrc: '',
 
       title: '',
       titleRules: [
@@ -100,12 +109,28 @@ export default {
       'createNewAd'
     ]),
 
+    triggerUpload () {
+      this.$refs.fileInput.click();
+    },
+
+    onFileChange (e) {
+      const
+        file = e.target.files[0],
+        reader = new FileReader();
+
+      reader.onload = (e) => this.imgSrc = reader.result;
+
+      reader.readAsDataURL(file);
+
+      this.img = file;
+    },
+
     createAd () {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form.validate() && this.img) {
         const ad = {
           title: this.title,
           description: this.description,
-          imgSrc: 'https://skladchik.com/proxy.php?image=https%3A%2F%2Fi.ytimg.com%2Fvi%2FDsuTwV0jwaY%2Fmaxresdefault.jpg&hash=ddef9dd1ddb1a8e1ceb184f53f666e0a',
+          img: this.img,
           promo: this.promo
         };
 
