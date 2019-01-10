@@ -2,7 +2,7 @@
   <v-container>
     <v-layout row>
       <v-flex xs12>
-        <v-card>
+        <v-card v-if="!loading">
           <v-img
             :src="ad.imgSrc"
             aspect-ratio="2.75"
@@ -21,6 +21,15 @@
             <v-btn class="success ml-2">Buy</v-btn>
           </v-card-actions>
         </v-card>
+
+        <div v-else class="text-xs-center">
+          <v-progress-circular
+            :size="50"
+            :width="5"
+            color="light-blue"
+            indeterminate
+          ></v-progress-circular>
+        </div>
       </v-flex>
     </v-layout>
   </v-container>
@@ -39,9 +48,13 @@ export default {
   },
 
   computed: {
-    ...mapGetters('ads', {
-      adById: 'adById'
-    }),
+    ...mapGetters('ads', [
+      'adById'
+    ]),
+
+    ...mapGetters('shared', [
+      'loading'
+    ]),
 
     id () {
       return this.$route.params.id;
