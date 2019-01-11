@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout row justify-center>
+    <v-layout v-if="!loading && myAds.length !== 0" row justify-center>
       <v-flex xs12 md8 lg6>
         <h1 class="text--secondary mb-3">My ads</h1>
         <v-card
@@ -17,7 +17,7 @@
             </v-flex>
             <v-flex xs12 sm8>
               <v-card-text>
-                <h2 class="text--primary">{{ ad.title }}</h2>
+                <h2 class="headline">{{ ad.title }}</h2>
                 <p>{{ ad.description }}</p>
               </v-card-text>
               <v-card-actions>
@@ -33,6 +33,21 @@
         </v-card>
       </v-flex>
     </v-layout>
+
+    <v-layout v-else-if="!loading && myAds.length === 0" row justify-center>
+      <v-flex xs12 md8 lg6>
+        <h1 class="text--secondary">You have no ads</h1>
+      </v-flex>
+    </v-layout>
+
+    <div v-else class="text-xs-center">
+      <v-progress-circular
+        :size="50"
+        :width="5"
+        color="light-blue"
+        indeterminate
+      ></v-progress-circular>
+    </div>
   </v-container>
 </template>
 
@@ -44,9 +59,13 @@ export default {
   name: 'AdList',
 
   computed: {
-    ...mapGetters('ads', {
-      myAds: 'myAds'
-    }),
+    ...mapGetters('shared', [
+      'loading'
+    ]),
+
+    ...mapGetters('ads', [
+      'myAds'
+    ])
   }
 }
 </script>
