@@ -5,9 +5,13 @@ import store from './store';
 
 import './plugins/vuetify';
 import App from './App.vue';
+import BuyModal from './components/Shared/BuyModal';
 
 
 Vue.config.productionTip = false;
+
+
+Vue.component('app-buy-modal', BuyModal);
 
 
 new Vue({
