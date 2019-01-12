@@ -137,8 +137,6 @@ export default {
       commit('shared/clearError', null, { root: true });
       commit('shared/setLoading', true, { root: true });
 
-      console.log(id, title, description);
-
       try {
         await fb.database().ref('ads').child(id).update({ title, description });
 
