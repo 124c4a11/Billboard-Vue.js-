@@ -28,7 +28,6 @@ export default {
 
   actions: {
     setLoading ({ commit }, isLoading) {
-      console.log('setLoadingAction');
       commit('setLoading', isLoading);
     },
 
