@@ -69,7 +69,8 @@ export default {
     },
 
     isOwner () {
-      return this.ad.ownerId === this.user.id;
+      if (this.user) return this.ad.ownerId === this.user.id;
+      return null;
     }
   }
 }
