@@ -18,7 +18,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <app-edit-ad-modal v-if="isOwner" :ad="ad"></app-edit-ad-modal>
-            <app-buy-modal :ad="ad"></app-buy-modal>
+            <app-buy-modal v-if="!isOwner" :ad="ad"></app-buy-modal>
           </v-card-actions>
         </v-card>
 
@@ -70,7 +70,7 @@ export default {
 
     isOwner () {
       if (this.user) return this.ad.ownerId === this.user.id;
-      return null;
+      return false;
     }
   }
 }

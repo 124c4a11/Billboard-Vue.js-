@@ -42,7 +42,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn :to="`/ad/${ad.id}`" flat color="light-blue">Open</v-btn>
-              <app-buy-modal :ad="ad"></app-buy-modal>
+              <app-buy-modal v-if="!isOwner(ad.ownerId)" :ad="ad"></app-buy-modal>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -79,7 +79,18 @@ export default {
 
     ...mapGetters('shared', [
       'loading'
-    ])
+    ]),
+
+    ...mapGetters('user', [
+      'user'
+    ]),
+
+    isOwner () {
+      return (ownerId) => {
+        if (this.user) return ownerId === this.user.id;
+        return false;
+      };
+    }
   }
 }
 </script>
