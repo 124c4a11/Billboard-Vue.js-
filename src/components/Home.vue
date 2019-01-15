@@ -29,7 +29,7 @@
           <v-card>
             <v-img
               :src="ad.imgSrc"
-              aspect-ratio="2.75"
+              aspect-ratio="2"
             ></v-img>
 
             <v-card-title primary-title>
