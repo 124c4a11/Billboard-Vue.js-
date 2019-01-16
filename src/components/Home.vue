@@ -26,13 +26,14 @@
           sm6
           md4
         >
-          <v-card>
+          <v-card class="flexcard" height="100%">
             <v-img
               :src="ad.imgSrc"
               aspect-ratio="2"
+              class="flexcard__image"
             ></v-img>
 
-            <v-card-title primary-title>
+            <v-card-title primary-title class="grow">
               <div>
                 <h3 class="headline mb-0">{{ ad.title }}</h3>
                 <div>{{ ad.description }}</div>
@@ -103,4 +104,13 @@ export default {
   left: 50%;
   transform: translateX(-50%);
 }
+
+.v-card.flexcard {
+  display: flex;
+  flex-direction: column;
+}
+
+.flexcard .v-image { flex: 0 0 auto; }
+
+.flexcard .v-card__title { align-items: start; }
 </style>
