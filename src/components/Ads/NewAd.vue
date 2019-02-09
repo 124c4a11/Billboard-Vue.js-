@@ -34,7 +34,6 @@
           Upload
           <v-icon right dark>cloud_upload</v-icon>
         </v-btn>
-        {{ imgSrc }}
         <input
           ref="fileInput"
           @change="onFileChange"
@@ -118,7 +117,7 @@ export default {
         file = e.target.files[0],
         reader = new FileReader();
 
-      reader.onload = (e) => this.imgSrc = reader.result;
+      reader.onload = () => this.imgSrc = reader.result;
 
       reader.readAsDataURL(file);
 
