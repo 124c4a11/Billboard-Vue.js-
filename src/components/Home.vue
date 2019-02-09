@@ -1,7 +1,7 @@
 <template>
   <div v-if="!loading">
     <v-container fluid>
-      <v-carousel>
+      <v-carousel height="700">
         <v-carousel-item
           v-for="ad in promoAds"
           :key="ad.id"
