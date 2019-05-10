@@ -30,7 +30,7 @@ export default {
 
     undoneOrders: (state) => state.orders.filter( (order) => !order.done ),
 
-    orders: (state, getters) => getters.undoneOrders.concat(getters.doneOrders)
+    orders: (state, getters) => getters.undoneOrders.reverse().concat(getters.doneOrders)
   },
 
   mutations: {
