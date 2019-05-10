@@ -57,5 +57,8 @@ export default new Router({
       component: Orders,
       beforeEnter: authGuard
     }
-  ]
+  ],
+  scrollBehavior () {
+    return { x: 0, y: 0 }
+  }
 })
