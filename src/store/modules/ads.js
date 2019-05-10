@@ -28,7 +28,7 @@ export default {
   },
 
   getters: {
-    ads: (state) => state.ads,
+    ads: (state) => state.ads.reverse(),
 
     promoAds: (state) => state.ads.filter( (ad) => ad.promo ),
 
